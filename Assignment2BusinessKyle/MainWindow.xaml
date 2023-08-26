@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Assignment2BusinessKyle"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="MainWindow" Height="800" Width="1400">
+        Title="MainWindow" Height="900" Width="1400">
     <Grid>
-        //hello
+        
     </Grid>
 </Window>
