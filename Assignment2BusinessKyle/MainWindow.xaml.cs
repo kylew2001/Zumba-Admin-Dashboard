@@ -1,102 +1,109 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Assignment2BusinessKyle
 {
-    public class Event
+    public partial class MainWindow : Window
     {
-        public DateTime Date { get; set; }
-        public string? Name { get; set; } // Assign a default value
-                                               // Other properties as needed
-    }
-
-    public partial class MainWindow : Window, INotifyPropertyChanged
-    {
-        private DateTime _selectedMonthStart = DateTime.Today;
-        private int _zumbaClassesLeft = 10;
-        private ObservableCollection<Event> _eventsForSelectedMonth = new ObservableCollection<Event>();
-
-        // ... Other properties and fields ...
-
-        public DateTime SelectedMonthStart
-        {
-            get { return _selectedMonthStart; }
-            set { _selectedMonthStart = value; OnPropertyChanged("SelectedMonthStart"); }
-        }
-
-        public int ZumbaClassesLeft
-        {
-            get { return _zumbaClassesLeft; }
-            set { _zumbaClassesLeft = value; OnPropertyChanged("ZumbaClassesLeft"); }
-        }
+        private Dictionary<DateTime, string> events = new Dictionary<DateTime, string>();
+        private Dictionary<string, int> customerClasses = new Dictionary<string, int>();
 
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = this;
-
-            MonthCalendar.SelectedDatesChanged += MonthCalendar_SelectedDatesChanged;
-
-            // Initialize other components and data here
         }
 
-        private void MonthCalendar_SelectedDatesChanged(object? sender, SelectionChangedEventArgs e)
+        private void SaveEvent_Click(object sender, RoutedEventArgs e)
         {
-            // Handle the selected dates change here
-            // You can access the selected dates using: MonthCalendar.SelectedDates
-            UpdateEventList();
-        }
+            DateTime selectedDate = eventDatePicker.SelectedDate ?? DateTime.Today;
+            string eventText = eventTextBox.Text;
 
-        // ... Other methods ...
-
-        private void UpdateEventList()
-        {
-            ObservableCollection<Event> eventsToShow = new ObservableCollection<Event>();
-
-            foreach (var evt in _eventsForSelectedMonth)
+            if (!string.IsNullOrWhiteSpace(eventText))
             {
-                if (evt.Date.Month == SelectedMonthStart.Month && evt.Date.Year == SelectedMonthStart.Year)
+                // Store the event in the dictionary
+                events[selectedDate] = eventText;
+
+                // Optionally, clear the eventTextBox for the next event
+                eventTextBox.Clear();
+            }
+        }
+
+        private void dateViewerCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dateViewerCalendar.SelectedDate.HasValue)
+            {
+                DateTime selectedDate = dateViewerCalendar.SelectedDate.Value;
+
+                // Check if events exist for the selected date
+                if (events.ContainsKey(selectedDate))
                 {
-                    eventsToShow.Add(evt);
+                    // Display events for the selected date
+                    eventDisplay.Text = $"Events for date: {selectedDate.ToShortDateString()}\n{events[selectedDate]}";
+                }
+                else
+                {
+                    // No events for the selected date
+                    eventDisplay.Text = $"No events for date: {selectedDate.ToShortDateString()}";
                 }
             }
-
-            _eventsForSelectedMonth.Clear(); // Clear the existing collection
-            foreach (var evt in eventsToShow)
-            {
-                _eventsForSelectedMonth.Add(evt); // Populate with events for the selected month
-            }
         }
 
-
-        private void SaveEventButton_Click(object sender, RoutedEventArgs e)
+        private void addClassButton_Click(object sender, RoutedEventArgs e)
         {
-            if (EventDatePicker.SelectedDate.HasValue)
+            string selectedCustomer = ((ComboBoxItem)customerComboBox.SelectedItem)?.Content.ToString();
+
+            if (!string.IsNullOrEmpty(selectedCustomer))
             {
-                Event newEvent = new Event
+                // Implement logic to add a class to the selected customer
+                if (!customerClasses.ContainsKey(selectedCustomer))
                 {
-                    Date = EventDatePicker.SelectedDate.Value,
-                    Name = EventNameTextBox.Text
-                };
+                    customerClasses[selectedCustomer] = 0;
+                }
 
-                _eventsForSelectedMonth.Add(newEvent);
+                customerClasses[selectedCustomer]++;
 
-                EventDatePicker.SelectedDate = null;
-                EventNameTextBox.Clear();
-
-                UpdateEventList();
+                // Update classes remaining text
+                UpdateClassesRemaining();
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-
-        protected void OnPropertyChanged(string propertyName)
+        private void useClassButton_Click(object sender, RoutedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            string selectedCustomer = ((ComboBoxItem)customerComboBox.SelectedItem)?.Content.ToString();
+
+            if (!string.IsNullOrEmpty(selectedCustomer))
+            {
+                // Implement logic to use a class for the selected customer
+                if (customerClasses.ContainsKey(selectedCustomer) && customerClasses[selectedCustomer] > 0)
+                {
+                    customerClasses[selectedCustomer]--;
+
+                    // Update classes remaining text
+                    UpdateClassesRemaining();
+                }
+            }
+        }
+
+        private void UpdateClassesRemaining()
+        {
+            string selectedCustomer = ((ComboBoxItem)customerComboBox.SelectedItem)?.Content.ToString();
+
+            if (!string.IsNullOrEmpty(selectedCustomer))
+            {
+                int classesLeft = customerClasses.ContainsKey(selectedCustomer) ? customerClasses[selectedCustomer] : 0;
+
+                classesRemainingTextBlock.Text = $"Classes remaining for {selectedCustomer}: {classesLeft}";
+            }
+        }
+
+        private void customerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Implement logic to handle the selection change of the customerComboBox, if needed.
+            // This event is triggered when the selected customer changes.
+            // You can update the classes remaining text or perform any other required actions.
+            UpdateClassesRemaining();
         }
     }
 }
