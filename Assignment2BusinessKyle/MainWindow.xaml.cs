@@ -22,10 +22,7 @@ namespace Assignment2BusinessKyle
 
             if (!string.IsNullOrWhiteSpace(eventText))
             {
-                // Store the event in the dictionary
                 events[selectedDate] = eventText;
-
-                // Optionally, clear the eventTextBox for the next event
                 eventTextBox.Clear();
             }
         }
@@ -36,15 +33,12 @@ namespace Assignment2BusinessKyle
             {
                 DateTime selectedDate = dateViewerCalendar.SelectedDate.Value;
 
-                // Check if events exist for the selected date
                 if (events.ContainsKey(selectedDate))
                 {
-                    // Display events for the selected date
                     eventDisplay.Text = $"Events for date: {selectedDate.ToShortDateString()}\n{events[selectedDate]}";
                 }
                 else
                 {
-                    // No events for the selected date
                     eventDisplay.Text = $"No events for date: {selectedDate.ToShortDateString()}";
                 }
             }
@@ -56,15 +50,12 @@ namespace Assignment2BusinessKyle
 
             if (!string.IsNullOrEmpty(selectedCustomer))
             {
-                // Implement logic to add a class to the selected customer
                 if (!customerClasses.ContainsKey(selectedCustomer))
                 {
                     customerClasses[selectedCustomer] = 0;
                 }
 
                 customerClasses[selectedCustomer]++;
-
-                // Update classes remaining text
                 UpdateClassesRemaining();
             }
         }
@@ -75,12 +66,9 @@ namespace Assignment2BusinessKyle
 
             if (!string.IsNullOrEmpty(selectedCustomer))
             {
-                // Implement logic to use a class for the selected customer
                 if (customerClasses.ContainsKey(selectedCustomer) && customerClasses[selectedCustomer] > 0)
                 {
                     customerClasses[selectedCustomer]--;
-
-                    // Update classes remaining text
                     UpdateClassesRemaining();
                 }
             }
@@ -93,17 +81,8 @@ namespace Assignment2BusinessKyle
             if (!string.IsNullOrEmpty(selectedCustomer))
             {
                 int classesLeft = customerClasses.ContainsKey(selectedCustomer) ? customerClasses[selectedCustomer] : 0;
-
                 classesRemainingTextBlock.Text = $"Classes remaining for {selectedCustomer}: {classesLeft}";
             }
-        }
-
-        private void customerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Implement logic to handle the selection change of the customerComboBox, if needed.
-            // This event is triggered when the selected customer changes.
-            // You can update the classes remaining text or perform any other required actions.
-            UpdateClassesRemaining();
         }
     }
 }

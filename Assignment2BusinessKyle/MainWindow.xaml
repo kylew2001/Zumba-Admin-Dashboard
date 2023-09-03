@@ -3,41 +3,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Admin Dashboard" Height="800" Width="1300">
     <Grid>
-        <!-- Admin Dashboard Heading -->
         <TextBlock Text="Admin Dashboard" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" Margin="0,10,0,20"/>
 
         <TabControl>
-            <!-- Tab 1: Events -->
             <TabItem Header="Events">
                 <StackPanel>
                     <DatePicker Name="eventDatePicker" />
-                    <TextBox Name="eventTextBox" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="200" Width="600">
-                        Enter event here...
-                    </TextBox>
+                    <TextBox Name="eventTextBox" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="200" Width="600"/>
                     <Button Content="Save Event" Click="SaveEvent_Click" Width="100" HorizontalAlignment="Center" Margin="0,5,0,0"/>
                 </StackPanel>
             </TabItem>
 
-            <!-- Tab 2: Date Viewer -->
             <TabItem Header="Date Viewer">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
-                        <!-- Left side for calendar and events -->
                         <ColumnDefinition Width="2*"/>
-                        <!-- Right side gray background -->
                     </Grid.ColumnDefinitions>
 
-                    <!-- Left Side (Calendar and Events) -->
                     <StackPanel Grid.Column="0">
-                        <!-- Calendar -->
                         <Calendar Name="dateViewerCalendar" SelectedDatesChanged="dateViewerCalendar_SelectedDatesChanged" />
 
-                        <!-- Event Display -->
                         <TextBlock Name="eventDisplay" VerticalAlignment="Top" Margin="10" />
                     </StackPanel>
 
-                    <!-- Right Side (Gray Background) -->
                     <Border Background="Gray" Grid.Column="1">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="Select Customer" FontWeight="Bold" Margin="0,10,0,5"/>
