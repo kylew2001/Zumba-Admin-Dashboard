@@ -17,7 +17,7 @@ namespace Assignment2BusinessKyle
 
         private void SaveEvent_Click(object sender, RoutedEventArgs e)
         {
-            DateTime selectedDate = eventDatePicker.SelectedDate ?? DateTime.Today;
+            DateTime selectedDate = eventDatePicker.SelectedDate.HasValue ? eventDatePicker.SelectedDate.Value : DateTime.Today;
             string eventText = eventTextBox.Text;
 
             if (!string.IsNullOrWhiteSpace(eventText))
@@ -46,7 +46,7 @@ namespace Assignment2BusinessKyle
 
         private void addClassButton_Click(object sender, RoutedEventArgs e)
         {
-            string selectedCustomer = ((ComboBoxItem)customerComboBox.SelectedItem)?.Content.ToString();
+            string selectedCustomer = (customerComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString();
 
             if (!string.IsNullOrEmpty(selectedCustomer))
             {
@@ -83,6 +83,11 @@ namespace Assignment2BusinessKyle
                 int classesLeft = customerClasses.ContainsKey(selectedCustomer) ? customerClasses[selectedCustomer] : 0;
                 classesRemainingTextBlock.Text = $"Classes remaining for {selectedCustomer}: {classesLeft}";
             }
+        }
+
+        private void eventTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

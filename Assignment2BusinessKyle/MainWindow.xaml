@@ -4,39 +4,49 @@
         Title="Admin Dashboard" Height="800" Width="1300">
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="Background" Value="LightYellow" />
+            <Setter Property="Background" Value="gray"  />
         </Style>
 
-        <Style TargetType="CalendarDayButton">
-            <Setter Property="Background" Value="LightYellow" />
-        </Style>
+
     </Window.Resources>
     <Grid>
         <TextBlock Text="Admin Dashboard" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" Margin="0,10,0,20"/>
 
         <TabControl>
             <TabItem Header="Events">
-                <StackPanel>
-                    <DatePicker Name="eventDatePicker" />
-                    <TextBox Name="eventTextBox" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="200" Width="600"/>
-                    <Button Content="Save Event" Click="SaveEvent_Click" Width="100" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                </StackPanel>
+                <Grid>
+                    <StackPanel>
+                        <DatePicker Name="eventDatePicker" />
+                        <Grid Height="199" Width="1296">
+                            <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,50,0,0" Width="601">
+                                <TextBox x:Name="eventTextBox" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Height="202" Width="600" TextChanged="eventTextBox_TextChanged" Margin="0,50,0,0" />
+                            </Border>
+                        </Grid>
+                        <Button Content="Save Event" Click="SaveEvent_Click" Width="100" HorizontalAlignment="Center" Margin="0,5,0,0">
+                            <Button.Foreground>
+                                <SolidColorBrush Color="white" />
+                            </Button.Foreground>
+                        </Button>
+                    </StackPanel>
+                    <Image Source="C:\Users\Kyle\Downloads\admin.png" Width="334" Height="250" RenderTransformOrigin="0.288,0.827" Margin="483,339,483,147" />
+                </Grid>
             </TabItem>
 
             <TabItem Header="Date Viewer">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="81*"/>
+                        <ColumnDefinition Width="114*"/>
+                        <ColumnDefinition Width="130*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0">
+                    <StackPanel Grid.Column="0" Grid.ColumnSpan="2">
                         <Calendar Name="dateViewerCalendar" SelectedDatesChanged="dateViewerCalendar_SelectedDatesChanged" />
 
                         <TextBlock Name="eventDisplay" VerticalAlignment="Top" Margin="10" />
                     </StackPanel>
 
-                    <Border Background="Gray" Grid.Column="1">
+                    <Border Background="LightGray" Grid.Column="2">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock Text="Select Customer" FontWeight="Bold" Margin="0,10,0,5"/>
                             <ComboBox Name="customerComboBox" Margin="0,0,0,5">
@@ -45,8 +55,17 @@
                                 <ComboBoxItem Content="Customer 3" />
                             </ComboBox>
                             <TextBlock Name="classesRemainingTextBlock" FontWeight="Bold" Margin="0,0,0,5"/>
-                            <Button Name="addClassButton" Content="Add Class" Width="100" Height="30" Click="addClassButton_Click" Margin="0,5,0,0"/>
-                            <Button Name="useClassButton" Content="Use Class" Width="100" Height="30" Click="useClassButton_Click" Margin="0,5,0,0"/>
+                            <Button Name="addClassButton" Content="Add Class" Width="100" Height="30" Click="addClassButton_Click" Margin="0,5,0,0">
+                                <Button.Foreground>
+                                    <SolidColorBrush Color="White" />
+                                </Button.Foreground>
+                            </Button>
+
+                            <Button Name="useClassButton" Content="Use Class" Width="100" Height="30" Click="useClassButton_Click" Margin="0,5,0,0">
+                                <Button.Foreground>
+                                    <SolidColorBrush Color="White" />
+                                </Button.Foreground>
+                            </Button>
                         </StackPanel>
                     </Border>
                 </Grid>
